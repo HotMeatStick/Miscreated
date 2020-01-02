@@ -1,0 +1,123 @@
+PVE/势力系统：
+我们添加了一个系统，可以支持多种场景，如PVE，派系或角色扮演。玩家、变种人/动物和基地都被分配了一个内置的阵营，并且这些阵营之间造成的伤害由伤害倍增矩阵详细控制。
+玩家还可以通过发布聊天命令加入指定的阵营“!factionname”。加入一个派别后，在服务器重新启动之前不能离开。当前势力可以通过聊天命令“！faction”.
+服务器管理员可以通过打开/关闭派系、损坏、名称以及访问steamid限制来完全自定义派系。
+最多可以定义4个派系。我们预先定义了可以由服务器管理员重新定义的派系：警察（执法官）、非法分子(亡命徒)、军人和全体。
+
+该系统允许以下类型的PVE服务器：
+1、玩家不能互相伤害对方和基地
+2、玩家可以加入一个亡命之徒或执法者阵营
+3、不法分子和执法者可以在其他玩家不受影响的情况下互相攻击
+4、警察不能互相伤害
+5、玩家可以伤害不法分子，但不能伤害执法者
+6、不法分子可以破坏基地，而警察不能
+7、环境会伤害任何人
+8、死亡和连接/断开连接的消息
+
+基础建设调整：
+服务器管理员现在可以完全不允许建立基础，或者将其设置为允许甚至在城市中建立基础。
+
+新游戏规则CVars：
+g_gameRules_bases X
+0 服务器上不允许有任何基
+1 正常基地建筑
+2 随处生成（警告：启用“随处生成”后将服务器切换到其他模式将导致删除排除区域中的任何基）
+
+g_gameRules_faction3-6=X
+激活势力
+特殊内置派系索引：（内置派系不能禁用）
+0-玩家（无势力）
+1-环境（突变体、动物等）
+2-出发点
+
+g_gameRules_faction0-6_name="factionname"
+设置派别名称和聊天命令关键词以加入派别。
+选择一个非冲突名称。
+
+g_gameRules_faction3-6_steamids="123456;1234567;..."（默认值：空，表示每个人都可以加入
+对势力的访问限制（分号分隔列表）
+
+g_gameRules_faction0-6_dmg_f0-6=1.0 （默认值：所有7x7 公司均为1.0）
+x对y的伤害倍增
+0.0 无损伤
+0.5 表示半损伤
+1.0 正常损害
+2.0 双重伤害
+
+游戏规则CVars（仅白名单）：
+g_gameRules_bases=2
+非区域限制性基地（基地可在城市中建立，用于举办活动或满足特定服务器要求等）
+0=无基地，1=限制区，2=所有基地（仅白名单）
+
+消息CVars（仅白名单）：
+sv_msg_conn=1
+将在聊天中的连接/断开连接时输出玩家名称和派别
+
+sv_msg_death=1
+将在聊天中输出杀手、受害者和武器/车辆以及死亡原因/修改器和派系
+
+举例（PVE与不法分子和执法人员）–
+–警察需要加入这个派别！awmen聊天命令
+–亡命之徒需要加入这个派别！outlaw聊天命令
+
+–玩家不能互相伤害对方和基地
+g_gameRules_faction0_dmg_f0=0.0
+g_gameRules_faction0_dmg_f2=0.0
+
+–玩家可以加入一个亡命之徒或执法者阵营
+g_gameRules_faction3=1
+g_gameRules_faction3_name="lawmen"
+g_gameRules_faction4=1
+g_gameRules_faction4_name="outlaw"
+
+–不法分子和执法者可以在其他玩家未受影响的情况下互相攻击
+g_gameRules_faction3_dmg_f0=0.0
+g_gameRules_faction3_dmg_f4=1.0
+g_gameRules_faction4_dmg_f0=0.0
+g_gameRules_faction4_dmg_f3=1.0
+
+– 警察不能互相伤害
+g_gameRules_faction3_dmg_f3=0.0
+
+–玩家可以伤害不法分子，但不能伤害执法者
+g_gameRules_faction0_dmg_f3=0.0
+g_gameRules_faction0_dmg_f4=1.0
+
+–不法分子可以破坏基地，而警察不能
+g_gameRules_faction3_dmg_f2=0.0
+g_gameRules_faction4_dmg_f2=1.0
+
+–环境可以伤害任何人（增加难度对玩家的伤害可以减半，对玩家的伤害可以加倍）
+g_gameRules_faction0_dmg_f1=0.5
+g_gameRules_faction3_dmg_f1=0.5
+g_gameRules_faction4_dmg_f1=0.5
+g_gameRules_faction1_dmg_f0=2.0
+g_gameRules_faction1_dmg_f3=2.0
+g_gameRules_faction1_dmg_f4=2.0
+
+–死亡和连接/断开连接的消息
+sv_msg_conn=1
+sv_msg_death=1
+
+–如果需要，取消注释：允许在任何地方建立基地
+–（如果被滥用，你可以定义一个具有高伤害倍增的访问限制势力来清除它们）
+– g_gameRules_bases=2
+
+事件/势力设备（仅限自托管服务器）
+以分号分隔的设备类列表将按该顺序添加（请确保在列表周围使用双引号）。把它们放到hosting.cfg中
+从“GameSDK\Scripts\Entities\Items\XML”文件夹中确定项目名称。首先列出所有容器/衣服，然后列出要放入的物品。（注意：使用未完成/未发布+测试项可能会在任何时候被删除，这可能会破坏您的本地数据库。）
+g_gameRules_faction0_equip // Default = "" (空表示生成标准装备)
+g_gameRules_faction3_equip // Default = "flexcap_policefrontback_blue;SunglassesBBlack;CanvasShoes;TshirtPoliceBlue;CargoPantsBlack;PoliceBaton;PoliceHandcuffs;PoliceHandcuffKey;Cb_radio;Megaphone;Map"
+g_gameRules_faction4_equip // Default = "HeadbandPatternC;BandanaRed;ScarfOrange;HitopsBlack;NoSleevesVestTan;WandererPantsBlack;BaseballBat;DuctTape;Torch"
+g_gameRules_faction5_equip // Default = "MilitaryHelmetGreenCamo1;CombatBootsBlack;TacticalVestGreenCamo2;MilitaryJacketTanCamo2;CargoPantsGreenCamo2;SurvivalKnife;DuctTape;Cb_radio;GridMap"
+g_gameRules_faction6_equip // Default = "flexcap_aclogofrontacback_blue;TennisShoes;ButtonUpShirtDarkGreyStriped;BlueJeans2Brown;WoodPaddle;DuctTape;Cb_radio"
+
+事件/势力生成位置（仅限自托管服务器）：
+派系玩家在生成位置周围的圆圈中生成，每个玩家随机选择一个。（繁殖与地形高度有关）
+格式可以是基于“X，Y，Z-地形-偏移”（使用地图网格确定）或命名的繁殖位置（有效名称为：Rockyriple sultan cinepark woodhaven hayward clydehill capebay brightmoor pineparks pinecrest airfield）
+当为空或0时，将选择正常生成。
+g_gameRules_faction0_pos // Default = "0,0,0"
+g_gameRules_faction3_pos // Default = "0,0,0"
+g_gameRules_faction4_pos // Default = "0,0,0"
+g_gameRules_faction5_pos // Default = "0,0,0"
+g_gameRules_faction6_pos // Default = "0,0,0"
