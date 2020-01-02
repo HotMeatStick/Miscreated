@@ -1,0 +1,128 @@
+自己的托管服务器
+
+在错误创建的整个自我测试阶段的整个Beta阶段，官方不支持错误创建的自托管服务器，并且很可能会在每次更新期间对其进行更改。
+
+由于自托管服务器管理员可以调整项目，因此在自托管服务器上禁用了合并信息亭上的项选项卡-皮肤选项卡,仍然完全正常工作。
+
+建议服务器管理员加入我们的社区Discord服务器以获取帮助：http://Discord.gg/miscreated-帮助请求进入服务器管理帮助频道。
+
+--开始安装说明-根据需要自定义-- 
+
+例如，为SteamCMD创建一个新文件夹-c:\ SteamCMD
+
+下载SteamCMD for Windows并将内容提取到新创建的SteamCMD文件夹中-https://steamcdn-a.akamaihd.net/client/installer/SteamCMD.zip
+执行steamcmd.exe程序以安装和更新Steam命令行工具
+更新后，您将在Steam>提示符下。 键入quit退出steamcmd。
+为Miscreated创建的专用服务器创建一个新文件夹-例如，c:\miscreatedserver
+
+在新创建的Miscreated创建的专用服务器文件夹中，创建一个名为start_server.bat的文件，并将以下行粘贴到其中：
+
+echo off
+:start 
+D:\steamcmd\steamcmd.exe +login anonymous +force_install_dir D:\steamcmd\miscreated\ +app_update 302200 validate +quit
+Bin64_dedicated\MiscreatedServer.exe +sv_maxplayers 50 +map islands -mis_gameserverid 100 +sv_servername "<server_description>"
+goto start
+
+编辑steamcmd.exe行并将<steam_account>替换为您的Steam帐户名
+编辑MiscreatedServer.exe行，然后将<server_description>更改为所需的名称-在描述两边加上引号。
+保存并退出bat文件
+
+注意：任何试图假装为官方服务器的服务器都将永久阻止该IP地址，并且将无法运行。 没有例外。
+
+--完成安装说明-- 
+当游戏完全加载时，Miscreated创建的服务器当前可以使用高达4GB的ram（服务器运行时会动态加载许多信息）。
+每个并发播放器将额外使用30MB的RAM。
+在一个满载50人的服务器上，服务器最多需要使用6GB的RAM。
+服务器被迫每24小时重新启动一次。使用下面提到的值“schedule_shutdown_utc”设置每天的准确时间。
+
+
+服务器数据库
+每个服务器的所有数据都将保存在根安装文件夹中的“miscreated.db”（SQLite）文件中。
+强烈建议不要编辑.db文件-这样做可以销毁服务器的所有持久数据。
+强烈建议您定期备份Miscreated创建的.db文件。
+
+附加的命令行选项（下面需要-或+开头）：
+-sv_bind x.x.x.x（指定在多宿主服务器中使用哪个IP地址）
+-sv_port x（默认值为64090-游戏将同时使用起始端口和后面的3个端口，因此默认情况下使用端口64090-64093-使用UDP和TCP）
+-mis_whitelist（如果您希望服务器仅允许白名单的Steamid能够连接到它，则添加）
++ http_startserver（启动远程控制台系统，以便管理员可以在运行时发出rcon命令更改服务器-参见下文）
+
+hosting.cfg文件
+可以将其他服务器配置值添加到根安装文件夹中的hosting.cfg文件中。
+使用以下某些选项可能会严重影响服务器的性能。
+不要编辑现有的system.cfg或private.cfg文件，仅添加并编辑到hosting.cfg文件。
+将以下命令的X替换为您的自定义值。
+
+sv_servername ="X" -服务器浏览器窗口中显示的服务器名称-覆盖命令行中指定的服务器名称
+http_password = X -用于通过rcon连接的密码
+g_pinglimit = X -玩家被踢之前可以执行的最大ping操作（0 =禁用），默认值：1000
+g_pingLimitTimer = X-如果玩家超过指定的ping限制，将被踢的时间（以秒为单位），默认值为15
+g_gameRules_Camera = X-服务器执行的相机规则，0 =两者，1 =仅第一人称，2 =仅第三人称
+wm_disable = X-完全禁用天气管理系统
+wm_timeScale = X-缩放一天中的时间速度，默认值：1
+wm_timeScaleWeather = X-天气速度的标度，默认值：1
+wm_timeScaleNight = X-夜间速度比例（相对于白天），默认值：4
+wm_timeOffset = X-与系统时间的时间偏移量，负值=随机偏移量，使用24-x表示真实的负偏移量（作为正数），默认值：0
+wm_forceTime = X-强制将服务器时间设置为特定的24小时时间，默认值：-1（禁用），范围可以从0.0到24.0
+sv_noBannedAccounts = X-禁止加入任何禁止的Steam帐户（或具有私人资料的帐户），默认值：0
+sv_maxuptime = X-直到重新启动为止的最大服务器正常运行时间（小时），默认值：24（列入白名单），否则为12-不能超过24小时
+schedule_shutdown_utc X-在指定的UTC小时硬关闭游戏，如果需要，可以在hosting.cfg文件中包含多个倍数
+sv_motd =“ X”-玩家加入服务器时显示的服务器模式
+sv_url =“ X”-玩家加入服务器时显示的服务器网址-实际上只是第二行
+sv_msg_conn = X-在聊天中宣布连接（仅列入白名单的功能），默认值：0
+sv_msg_death = X-宣布聊天死亡（仅列入白名单的功能），默认值：0
+g_gameRules_bases = X-服务器强制实施的基本放置规则，默认值：1（0 =无碱基，1 =限制区域，2 =无处不在（仅列入白名单的功能））
+g_playerHealthRegen = X-生命回复速度，默认值：0.111
+g_playerFoodDecay = X-食物腐烂速度，默认值：0.2777
+g_playerFoodDecaySprinting = X-冲刺时食物的衰减速度，默认值：0.34722
+g_playerWaterDecay = X-水衰减速度，默认值：0.4861
+g_playerWaterDecaySprinting = X-冲刺时水的衰减速度，默认值：0.607638
+g_playerInfiniteStamina = X-启用无限耐力，默认值：0
+g_craftingSpeedMultiplier = X-标量以加快制作时间，默认值：1
+asm_disable = X-禁用AI Spawner Manager系统，默认值：0
+asm_percent = X-设置AI生成器位置百分比，默认值：33（最大值为90）-这有助于控制AI生成密度
+asm_maxMultiplier = X-设置AI生成器最大数量的乘数，默认值：1（最大5）
+asm_hordeCooldown = X-设置生成群体的最小冷却时间，默认（以秒为单位）：900
+pcs_maxCorpses = X-设置玩家尸体的最大数量，默认值：20
+pcs_maxCorpseTime = X-设置玩家尸体消失之前的最长时间，默认（以秒为单位）：1200
+steam_inventory_enable = X-配置Steam库存（kiosk系统），默认值：1（0 =禁用并禁用服务器上的所有信息亭功能）
+
+远程控制台（RCON）访问
+Rcon允许服务器管理员远程管理服务器。
+使用rcon访问的最佳方法是下载并使用位于以下位置的我们的工具：https://github.com/Csprance/misrcon
+您也可以在以下网址使用我们的Web界面：https：//servers.miscreatedgame.com/
+
+有用的rcon命令：
+status-显示所有播放和连接的状态
+wm_startPattern X-强制启动天气模式（将通知所有已连接的玩家-请参阅下面的天气模式列表）
+mis_ban_steamid 64BITSTEAMID-禁止播放器
+mis_ban_status-显示禁止列表
+mis_ban_remove 64BITSTEAMID-从禁止列表中删除
+mis_kick X 64BITSTEAMID-来自服务器的踢
+mis_whitelist_add 64BITSTEAMID-添加到白名单
+mis_whitelist_remove 64BITSTEAMID-从白名单中删除
+mis_whitelist_status X-显示当前白名单
+sv_say X-向所有连接的播放器发送消息（显示在屏幕顶部）
+sv_chat X-向所有连接的玩家发送聊天消息（出现在聊天窗口中）
+do_shutdown X-用x秒（默认值：60秒，最小：45秒，最大：600秒）内的公告重新启动
+
+天气模式（与wm_startPattern一起使用，缺少的值是过渡模式）：
+ 1：晴空
+ 2：小雨
+ 3：重雨雷
+ 4：重型风暴
+ 7：龙卷风雨雷
+ 9：小雾
+10：中等雾
+11：重雾
+12：雾
+15：雷暴
+18：核闪冻结
+21：雪
+24：晴朗的天空
+25：晴朗的天空
+26：雷雨远风
+27：中等雨
+28：大雨
+29：酸雨
+31：暴雪
