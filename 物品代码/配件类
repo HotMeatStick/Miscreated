@@ -3,8 +3,8 @@ CraftedPistolSilencer	特制手枪消音器
 CraftedSilencer		特制消音器
 FlashlightPistol	手枪手电筒
 FlashlightRifle		步枪手电筒
-ForegripVertical	前握垂直
-IronsightKit		瞄准具
+ForegripVertical	AM-5金色握把
+IronsightKit		瞄准镜套件
 LaserSight		红色激光瞄准器
 LaserSightBlue		蓝色激光瞄准器
 LaserSightGreen		绿色激光瞄准器
@@ -14,4 +14,4 @@ PistolSilencer		手枪消音器
 ReflexSight		全息瞄具
 ReflexSightBow		弓的反射镜
 RifleSilencer		步枪消音器
-T1Micro			T1微型
+T1Micro			红点瞄具
