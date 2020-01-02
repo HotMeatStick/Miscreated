@@ -5,11 +5,11 @@ FlashlightPistol	手枪手电筒
 FlashlightRifle		步枪手电筒
 ForegripVertical	前握垂直
 IronsightKit		瞄准具
-LaserSight		激光瞄准器
+LaserSight		红色激光瞄准器
 LaserSightBlue		蓝色激光瞄准器
 LaserSightGreen		绿色激光瞄准器
-OpticScope		光学显微镜
-OpticScopeBow		弓的光学显微镜
+OpticScope		44倍镜
+OpticScopeBow		弓的4倍镜
 PistolSilencer		手枪消音器
 ReflexSight		反射镜
 ReflexSightBow		弓的反射镜
