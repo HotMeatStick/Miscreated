@@ -1,2 +1,138 @@
 此指令依赖于Mods中的一项MOD名为：管理员命令
 
+
+更新为1.4.0！
+2019年9月20日：无法生成多个堆叠项，但我正在处理。
+2019年8月5日：新的命令终于添加了！在下面的命令部分中查找示例和用法。
+------------------------------
+
+非常重要，请阅读
+
+------------------------------
+https://servers.miscreatedgame.com/help
+
+只有您选择的玩家才能访问这些聊天命令。它要求在你的主机cfg的第4派系是“管理”派系。它检查的是号码，而不是姓名。所以你想叫什么就叫什么派系，但必须是派系4。非常重要。只为你和你最信任的盟友保留它（你可以通过steamid，检查链接，列出白名单）。如果你还没有一个势力，你可能还需要创建一个势力3。命名它无论什么，并设置它，但你想要，因为派别3只需要存在。下面是您需要添加到hosting.cfg中“steam-ugc”行后面的文本示例：
+
+g_gameRules_faction3=1
+g_gameRules_faction3_name="hayward"
+g_gameRules_faction3_equip="Axe;Maglite;ButtonUpShirtRed;BlueJeans;CanvasShoes;Cb_radio;Binoculars"
+g_gameRules_faction3_pos="hayward"
+
+g_gameRules_faction4=1
+g_gameRules_faction4_name="admins"
+g_gameRules_faction4_equip="Axe;Maglite;ButtonUpShirtRed;BlueJeans;CanvasShoes;RuckSack"
+g_gameRules_faction4_pos="hayward"
+
+------------------------------
+THANK YOU
+------------------------------
+
+
+
+Commands:
+-----
+
+
+
+!mirror（将在聊天框中向您重复文本）
+
+
+
+示例：!mirror Hello World
+-----
+!wmsg（通过聊天框向服务器上的所有玩家发送消息）
+
+示例：!wmsg 试试churros
+-----
+
+
+
+!wann（在顶部屏幕上向服务器上的所有播放机发送消息）
+示例：!wann 十点十分P城赛车跑道摸金，速度来！！！！！
+
+-----
+!spawn（将在玩家前方2米处生成任何物品）
+
+示例：!spawn Jerrycandisel
+-----
+
+!give（与！但它将直接进入你的库存）
+示例：!give Rags
+----
+
+
+!joinf（强制加入一个阵营，不需要重启服务器）。将#替换为3-7，匹配hosting.cfg中的势力编号）
+
+示例：!joinf 4
+-----
+
+!rcon（在服务器上执行任何rcon命令）
+
+示例：!rcon sv_say I'm using rcon without the rcon :O
+-----
+
+!weather（启动服务器上的任何天气模式，接受数字和名称）
+
+example: !weather 01
+example: !weather ClearSky
+
+可用的天气模式：
+Available weather patterns:
+01 | ClearSky
+02 | LightRain
+03 | HeavyRainThunder
+04 | HeavyStorm
+05 | TornadoStorm
+06 | TornadoStorm_Tornado
+07 | TornadoRainThunder
+08 | TornadoRainThunder_Tornado
+09 | LightFog
+10 | MediumFog
+11 | HeavyFog
+12 | TheMist
+13 | Rainbow
+14 | RainbowHalf
+15 | RadStorm
+16 | RadStorm_Peak
+17 | RadStorm_Outro
+18 | NuclearFlashFreeze
+19 | NuclearFlashFreeze_Peak
+20 | NuclearFlashFreeze_Outro
+21 | Snow
+-----
+
+
+-----
+!time（可用于将时间冻结到特定的小时）
+示例：!time 12
+-----
+
+!mypos（以矢量格式显示位置）
+示例：!mypos
+-----
+
+!teleport（传送到一个位置，使用！我的位置。你可以通过输入“！传送基地“）
+示例：!teleport base（*不使用atm，只需记住您在基地的位置）
+示例：!teleport 5084.9 2083.2 19.1
+-----
+
+!summon（用蒸汽号召唤玩家到你的位置）
+
+示例：!summon 13456574837243242
+
+-----
+
+!heal（将玩家治疗到满血）
+示例：!heal
+
+-----
+
+在这里可以找到大量的可生成项列表（现在有些过时了，但大多数项仍然包括在内）：
+
+https://pastebin.com/KZvqPFWB
+
+输入的项目必须与列表中显示的完全相同。案子很重要！
+----------
+
+要在服务器上启用此模式，请将“1743888185”添加到hosting.cfg中的steam-ugc中，如下所示：
+蒸汽=1743888185
